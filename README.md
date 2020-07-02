@@ -5,7 +5,7 @@ Home: https://github.com/pothosware/SoapyRTLSDR/wiki
 
 Package license: MIT
 
-Feedstock license: BSD 3-Clause
+Feedstock license: BSD-3-Clause
 
 Summary: SoapySDR RTL-SDR Support Module
 
