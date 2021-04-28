@@ -10,7 +10,7 @@ source:
   sha256: 9c31c67c2646628b448bbef1307f3880b7e78be8caf7a02cd3cfa4d08dc4075b
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('soapysdr-module-rtlsdr', max_pin='x.x') }}
 
