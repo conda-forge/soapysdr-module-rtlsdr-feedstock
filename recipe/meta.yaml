@@ -5,7 +5,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/pothosware/SoapyRTLSDR/archive/refs/tags/soapy-rtlsdr-{{ version }}.tar.gz
+  url: https://github.com/pothosware/SoapyRTLSDR/archive/refs/tags/soapy-rtl-sdr-{{ version }}.tar.gz
   sha256: 757c3c3bd17c5a12c7168db2f2f0fd274457e65f35e23c5ec9aec34e3ef54ece
 
 build:
