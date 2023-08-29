@@ -1,0 +1,58 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Ryan Volz <ryan.volz@gmail.com>
+Date: Tue, 29 Aug 2023 13:46:21 -0400
+Subject: [PATCH] Report correct frequency range for rtl-sdr-blog v4 (it goes
+ down to 0)
+
+---
+ Settings.cpp    | 7 +++++++
+ SoapyRTLSDR.hpp | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/Settings.cpp b/Settings.cpp
+index 7bd4765..710b3a0 100644
+--- a/Settings.cpp
++++ b/Settings.cpp
+@@ -32,6 +32,8 @@ SoapyRTLSDR::SoapyRTLSDR(const SoapySDR::Kwargs &args):
+     dev(nullptr),
+     rxFormat(RTL_RX_FORMAT_FLOAT32),
+     tunerType(RTLSDR_TUNER_R820T),
++    manufacturer(),
++    product(),
+     sampleRate(2048000),
+     centerFrequency(100000000),
+     bandwidth(0),
+@@ -65,6 +67,9 @@ SoapyRTLSDR::SoapyRTLSDR(const SoapySDR::Kwargs &args):
+     if (args.count("tuner") != 0) tunerType = rtlStringToTuner(args.at("tuner"));
+     SoapySDR_logf(SOAPY_SDR_DEBUG, "RTL-SDR Tuner type: %s", rtlTunerToString(tunerType).c_str());
+ 
++    if (args.count("manufacturer") != 0) manufacturer = args.at("manufacturer");
++    if (args.count("product") != 0) product = args.at("product");
++
+     SoapySDR_logf(SOAPY_SDR_DEBUG, "RTL-SDR opening device %d", deviceId);
+     if (rtlsdr_open(&dev, deviceId) != 0) {
+         throw std::runtime_error("Unable to open RTL-SDR device");
+@@ -406,6 +411,8 @@ SoapySDR::RangeList SoapyRTLSDR::getFrequencyRange(
+             results.push_back(SoapySDR::Range(22000000, 1100000000));
+         } else if (tunerType == RTLSDR_TUNER_FC0013) {
+             results.push_back(SoapySDR::Range(22000000, 948600000));
++        } else if (manufacturer == "RTLSDRBlog" && product == "Blog V4") {
++            results.push_back(SoapySDR::Range(0, 1764000000));
+         } else {
+             results.push_back(SoapySDR::Range(24000000, 1764000000));
+         }
+diff --git a/SoapyRTLSDR.hpp b/SoapyRTLSDR.hpp
+index 3add942..1f0a0e5 100644
+--- a/SoapyRTLSDR.hpp
++++ b/SoapyRTLSDR.hpp
+@@ -244,6 +244,7 @@ private:
+     //cached settings
+     rtlsdrRXFormat rxFormat;
+     rtlsdr_tuner tunerType;
++    std::string manufacturer, product;
+     uint32_t sampleRate, centerFrequency, bandwidth;
+     int ppm, directSamplingMode;
+     size_t numBuffers, bufferLength, asyncBuffs;
+-- 
+2.40.0
+
