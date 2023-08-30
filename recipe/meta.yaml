@@ -7,9 +7,11 @@ package:
 source:
   url: https://github.com/pothosware/SoapyRTLSDR/archive/refs/tags/soapy-rtl-sdr-{{ version }}.tar.gz
   sha256: 757c3c3bd17c5a12c7168db2f2f0fd274457e65f35e23c5ec9aec34e3ef54ece
+  patches:
+    - 0001-Report-correct-frequency-range-for-rtl-sdr-blog-v4-i.patch
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage('soapysdr-module-rtlsdr', max_pin='x.x') }}
 
